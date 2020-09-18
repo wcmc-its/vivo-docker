@@ -31,8 +31,8 @@ COPY ./log4j.properties /usr/local/tomcat/webapps/VIVO/WEB-INF/classes
 
 WORKDIR /usr/local/VIVO/home/config
 
-COPY ./runtime.properties /usr/local/VIVO/home/runtime.properties
-COPY ./applicationSetup.n3 /usr/local/VIVO/home/config/applicationSetup.n3
+COPY ./example.runtime.properties /usr/local/VIVO/home/runtime.properties
+COPY ./example.applicationSetup.n3 /usr/local/VIVO/home/config/applicationSetup.n3
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 RUN chmod ugo+w -R /usr/local/VIVO/home
