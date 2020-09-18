@@ -1,0 +1,73 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vivo
+  namespace: vivo
+  labels:
+    app: vivo
+    environment: dev
+    tier: backend
+    owner: szd2013
+spec:
+  selector:
+    matchLabels:
+      app: vivo
+      environment: dev
+      tier: backend
+      owner: szd2013
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vivo
+        environment: dev
+        tier: backend
+        owner: szd2013
+    spec:
+      hostname: vivo
+      containers:
+      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivo:latest
+        name: vivo
+        imagePullPolicy: Always
+        env:
+        ports:
+        - containerPort: 8080
+          name: vivo
+        resources:
+          requests:
+            memory: 10G
+            cpu: 2.5
+          limits:
+            memory: 10G
+            cpu: 2.5
+        volumeMounts:
+         - name: vivo-pvc
+           mountPath: /usr/local/VIVO/home
+      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivosolr:latest
+        name:  solr
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8983
+        resources:
+          limits:
+            cpu: 1
+            memory: 3G
+          requests:
+            cpu: 1
+            memory: 3G
+        volumeMounts:
+          - name:  solr-pvc
+            mountPath:  /opt/vivocore
+      nodeSelector:
+        app: vivo
+      volumes:
+        - name: vivo-pvc 
+          persistentVolumeClaim:
+            claimName: vivo-tdb-pvc
+        - name: solr-pvc 
+          persistentVolumeClaim:
+            claimName: solr-tdb-pvc

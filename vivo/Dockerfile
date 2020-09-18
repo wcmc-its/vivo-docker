@@ -18,7 +18,6 @@ RUN rm VIVO.zip
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
 WORKDIR /usr/local/VIVO/VIVO-1.11.1
-RUN mvn install -s ../example-settings.xml
 
 # clean up
 RUN rm -r /usr/local/tomcat/webapps/docs
@@ -28,14 +27,17 @@ RUN rm -r /usr/local/tomcat/webapps/examples
 # Adjust logging, you can mount over this in docker-compose to further adjust
 COPY ./log4j.properties /usr/local/tomcat/webapps/VIVO/WEB-INF/classes
 
-WORKDIR /usr/local/VIVO/home/config
-
-COPY ./example.runtime.properties /usr/local/VIVO/home/config/runtime.properties
-COPY ./example.applicationSetup.n3 /usr/local/VIVO/home/config/applicationSetup.n3
+COPY ./example.runtime.properties /usr/local/VIVO/VIVO-1.11.1/runtime.properties
+COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO-1.11.1/applicationSetup.n3
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 RUN chmod ugo+w -R /usr/local/VIVO/home
 
-RUN export CATALINA_OPTS="-Xms512m -Xmx512m -XX:MaxPermSize=128m"
+RUN export CATALINA_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=128m"
 
 RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log
+
+ADD start.sh /
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]
