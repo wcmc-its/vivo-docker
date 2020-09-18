@@ -1,29 +1,28 @@
-FROM tomcat:9.0.21-jdk8-openjdk
+FROM tomcat:9.0.21-jdk11-openjdk
 
 RUN apt-get update
 RUN apt-get install -y maven git
 
 WORKDIR /usr/local/
 
-ENV VITRO_VERSION 1.9.0
+ENV VITRO_VERSION 1.11.1
 RUN wget -O Vitro.zip https://github.com/wcmc-its/Vitro/releases/download/${VITRO_VERSION}/vitro-${VITRO_VERSION}.zip
 RUN unzip Vitro.zip -d Vitro
 RUN rm Vitro.zip
 
-ENV VIVO_VERSION 1.9.0
+ENV VIVO_VERSION 1.11.1
 RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/releases/download/${VIVO_VERSION}/VIVO-${VIVO_VERSION}.zip
 RUN unzip VIVO.zip -d VIVO
 RUN rm VIVO.zip
 
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
-WORKDIR /usr/local/VIVO/VIVO-1.9.0
+WORKDIR /usr/local/VIVO/VIVO-1.11.1
 RUN mvn install -s ../example-settings.xml
 
 # clean up
 RUN rm -r /usr/local/tomcat/webapps/docs
 RUN rm -r /usr/local/tomcat/webapps/examples
-RUN rm -r /usr/local/tomcat/webapps/vivosolr
 
 # Set properties
 # Adjust logging, you can mount over this in docker-compose to further adjust
