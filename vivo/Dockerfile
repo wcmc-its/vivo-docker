@@ -31,7 +31,7 @@ COPY ./example.runtime.properties /usr/local/VIVO/VIVO-1.11.1/runtime.properties
 COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO-1.11.1/applicationSetup.n3
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
-RUN chmod ugo+w -R /usr/local/VIVO/home
+#RUN chmod ugo+w -R /usr/local/VIVO/home
 
 RUN export CATALINA_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=128m"
 
