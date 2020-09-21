@@ -40,10 +40,10 @@ spec:
         resources:
           requests:
             memory: 10G
-            cpu: 2.5
+            cpu: 2.2
           limits:
             memory: 10G
-            cpu: 2.5
+            cpu: 2.2
         volumeMounts:
          - name: vivo-pvc
            mountPath: /usr/local/VIVO/home
@@ -62,6 +62,37 @@ spec:
         volumeMounts:
           - name:  solr-pvc
             mountPath:  /opt/vivocore
+      - image: nginx:alpine
+        name:  nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 200m
+            memory: 300Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: "/nginx-health"
+            port: 80
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          failureThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: "/nginx-health"
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 1
+          failureThreshold: 1
+          timeoutSeconds: 1
+        volumeMounts:
+          - name:  nginx-conf
+            mountPath:  /etc/nginx/conf.d
       nodeSelector:
         app: vivo
       volumes:
@@ -71,3 +102,6 @@ spec:
         - name: solr-pvc 
           persistentVolumeClaim:
             claimName: solr-tdb-pvc
+        - name: nginx-conf  
+          configMap:
+            name: vivo-nginx-configmap
