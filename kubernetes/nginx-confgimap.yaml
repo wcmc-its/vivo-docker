@@ -11,8 +11,10 @@ metadata:
 data:
   nginx.conf: |-
     server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen 443 ssl;
+        error_page 497 301 =307 https://$host:443$request_uri;
+        ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+        ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
         location / {
             if ($http_user_agent ~ (11A465|Ahrefs|ArchiveBot|AspiegelBot|Baiduspider|bingbot|BLEXBot|Bytespider|CCBot|Curebot|Daum|Detectify|DotBot|Grapeshot|heritrix|Kinza|LieBaoFast|Linguee|LMY47V|MauiBot|Mb2345Browser|MegaIndex|MicroMessenger|MJ12bot|MQQBrowser|PageFreezer|PiplBot|Riddler|Screaming.Frog|Search365bot|SearchBlox|Seekport|SemanticScholarBot|SemrushBot|SEOkicks|serpstatbot|Siteimprove.com|Sogou.web.spider|trendictionbot|TurnitinBot|UCBrowser|weborama-fetcher|Vagabondo|VelenPublicWebCrawler|YandexBot|YisouSpider) ) {
               return 403;
@@ -28,7 +30,7 @@ data:
             proxy_read_timeout 300;
             proxy_send_timeout 300;
             proxy_connect_timeout 300;
-            proxy_pass http://localhost:8080/vivo/;
+            proxy_pass https://localhost:8443/vivo/;
         }
         location /nginx-health {
             access_log off;

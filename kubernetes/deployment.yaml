@@ -32,7 +32,7 @@ spec:
       containers:
       - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivo:latest
         name: vivo
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         ports:
         - containerPort: 8080
@@ -49,7 +49,7 @@ spec:
            mountPath: /usr/local/VIVO/home
       - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivosolr:latest
         name:  solr
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8983
         resources:
@@ -62,11 +62,11 @@ spec:
         volumeMounts:
           - name:  solr-pvc
             mountPath:  /opt/vivocore
-      - image: nginx:alpine
+      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivonginx:latest
         name:  nginx
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 443
         resources:
           limits:
             cpu: 200m
@@ -77,7 +77,8 @@ spec:
         livenessProbe:
           httpGet:
             path: "/nginx-health"
-            port: 80
+            scheme: HTTPS
+            port: 443
           initialDelaySeconds: 3
           periodSeconds: 5
           failureThreshold: 1
@@ -85,7 +86,8 @@ spec:
         readinessProbe:
           httpGet:
             path: "/nginx-health"
-            port: 80
+            scheme: HTTPS
+            port: 443
           initialDelaySeconds: 5
           periodSeconds: 1
           failureThreshold: 1

@@ -24,4 +24,4 @@ spec:
           - path: /*
             backend:
               serviceName: vivo
-              servicePort: 80
+              servicePort: 443
