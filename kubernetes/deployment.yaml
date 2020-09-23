@@ -59,9 +59,10 @@ spec:
           requests:
             cpu: 1
             memory: 3G
-        volumeMounts:
-          - name:  solr-pvc
-            mountPath:  /opt/vivocore
+        securityContext:
+          runAsUser: 8983
+          runAsGroup: 8693
+          allowPrivilegeEscalation: false
       - image: nginx:alpine
         name:  nginx
         imagePullPolicy: IfNotPresent
@@ -99,9 +100,6 @@ spec:
         - name: vivo-pvc 
           persistentVolumeClaim:
             claimName: vivo-tdb-pvc
-        - name: solr-pvc 
-          persistentVolumeClaim:
-            claimName: solr-tdb-pvc
         - name: nginx-conf  
           configMap:
             name: vivo-nginx-configmap
