@@ -17,7 +17,8 @@ RUN rm VIVO.zip
 
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
-WORKDIR /usr/local/VIVO/VIVO-1.11.1
+RUN mv VIVO-1.11.1 VIVO
+WORKDIR /usr/local/VIVO/VIVO
 
 # clean up
 RUN rm -r /usr/local/tomcat/webapps/docs
@@ -26,10 +27,10 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
 # Set properties
 # Adjust logging, you can mount over this in docker-compose to further adjust
-COPY ./log4j.properties /usr/local/tomcat/webapps/VIVO/WEB-INF/classes
+#COPY ./log4j.properties /usr/local/tomcat/webapps/vivo/WEB-INF/classes
 
-COPY ./example.runtime.properties /usr/local/VIVO/VIVO-1.11.1/runtime.properties
-COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO-1.11.1/applicationSetup.n3
+COPY ./example.runtime.properties /usr/local/VIVO/VIVO/runtime.properties
+COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO/applicationSetup.n3
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
