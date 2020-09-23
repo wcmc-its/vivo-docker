@@ -22,6 +22,7 @@ WORKDIR /usr/local/VIVO/VIVO-1.11.1
 # clean up
 RUN rm -r /usr/local/tomcat/webapps/docs
 RUN rm -r /usr/local/tomcat/webapps/examples
+RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
 # Set properties
 # Adjust logging, you can mount over this in docker-compose to further adjust
