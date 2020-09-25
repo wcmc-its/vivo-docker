@@ -8,7 +8,7 @@
                 <app-name>vivo</app-name>
 
                 <vivo-dir>/usr/local/VIVO/home</vivo-dir>
-                <tomcat-dir>/usr/local/tomcat</tomcat-dir>
+                <tomcat-dir>/usr/local/VIVO</tomcat-dir>
 
                 <default-theme>wcmc</default-theme>
             </properties>

@@ -1,28 +1,28 @@
 FROM tomcat:9.0.21-jdk11-openjdk
 
 RUN apt-get update
-RUN apt-get install -y maven git
+RUN apt-get install -y maven
 
 WORKDIR /usr/local/
 
-ENV VITRO_VERSION 1.11.1
-RUN wget -O Vitro.zip https://github.com/wcmc-its/Vitro/releases/download/${VITRO_VERSION}/vitro-${VITRO_VERSION}.zip
+ENV VITRO_VERSION 1.9.0
+RUN wget -O Vitro.zip https://github.com/wcmc-its/Vitro/archive/vivo-rel-1.9.0.zip
 RUN unzip Vitro.zip -d Vitro
 RUN rm Vitro.zip
 
-ENV VIVO_VERSION 1.11.1
-RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/releases/download/${VIVO_VERSION}/VIVO-${VIVO_VERSION}.zip
+ENV VIVO_VERSION 1.9.0
+RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/archive/vivo-rel-1.9.0.zip
 RUN unzip VIVO.zip -d VIVO
 RUN rm VIVO.zip
 
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
-RUN mv VIVO-1.11.1 VIVO
+RUN mv VIVO-vivo-rel-1.9.0 VIVO
 WORKDIR /usr/local/VIVO/VIVO
 
 # clean up
-RUN rm -r /usr/local/tomcat/webapps/docs
-RUN rm -r /usr/local/tomcat/webapps/examples
+#RUN rm -r /usr/local/tomcat/webapps/docs
+#RUN rm -r /usr/local/tomcat/webapps/examples
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
 # Set properties
