@@ -6,18 +6,18 @@ RUN apt-get install -y maven git
 WORKDIR /usr/local/
 
 ENV VITRO_VERSION 1.11.1
-RUN wget -O Vitro.zip https://github.com/wcmc-its/Vitro/releases/download/${VITRO_VERSION}/vitro-${VITRO_VERSION}.zip
+RUN wget -O Vitro.zip https://github.com/wcmc-its/Vitro/archive/master.zip
 RUN unzip Vitro.zip -d Vitro
 RUN rm Vitro.zip
 
 ENV VIVO_VERSION 1.11.1
-RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/releases/download/${VIVO_VERSION}/VIVO-${VIVO_VERSION}.zip
+RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/archive/master.zip
 RUN unzip VIVO.zip -d VIVO
 RUN rm VIVO.zip
 
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
-RUN mv VIVO-1.11.1 VIVO
+RUN mv VIVO-master VIVO
 WORKDIR /usr/local/VIVO/VIVO
 
 # clean up
@@ -35,7 +35,7 @@ COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO/applicationSetup.n3
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
 
-RUN export CATALINA_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=128m"
+RUN export CATALINA_OPTS="-Xms4096m -Xmx4096m -XX:MaxPermSize=512m"
 
 RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log
 
