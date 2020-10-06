@@ -1,0 +1,50 @@
+apiVersion: apps/v1 #  for k8s versions before 1.9.0 use apps/v1beta2  and before 1.8.0 use extensions/v1beta1
+kind: Deployment
+metadata:
+  name: vivosolr
+  namespace: vivo
+  labels:
+    app: vivosolr
+    environment: dev
+    tier: backend
+    owner: szd2013
+spec:
+  selector:
+    matchLabels:
+      app: vivosolr
+      environment: dev
+      tier: backend
+      owner: szd2013
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: vivosolr
+        environment: dev
+        tier: backend
+        owner: szd2013
+    spec:
+      hostname: vivosolr
+      containers:
+      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivosolr:latest
+        name:  solr
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8983
+        resources:
+          limits:
+            cpu: 1
+            memory: 3G
+          requests:
+            cpu: 1
+            memory: 3G
+        securityContext:
+          runAsUser: 8983
+          runAsGroup: 8693
+          allowPrivilegeEscalation: false
+      nodeSelector:
+        app: vivo

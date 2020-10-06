@@ -30,7 +30,7 @@ spec:
     spec:
       hostname: vivo
       containers:
-      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivo:latest
+      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivo:sdb
         name: vivo
         imagePullPolicy: Always
         env:
@@ -47,22 +47,6 @@ spec:
         volumeMounts:
          - name: vivo-pvc
            mountPath: /usr/local/VIVO/home
-      - image: 665083158573.dkr.ecr.us-east-1.amazonaws.com/wcmc/vivosolr:latest
-        name:  solr
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8983
-        resources:
-          limits:
-            cpu: 1
-            memory: 3G
-          requests:
-            cpu: 1
-            memory: 3G
-        securityContext:
-          runAsUser: 8983
-          runAsGroup: 8693
-          allowPrivilegeEscalation: false
       - image: nginx:alpine
         name:  nginx
         imagePullPolicy: IfNotPresent
