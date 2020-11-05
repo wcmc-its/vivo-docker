@@ -12,3 +12,8 @@ parameters:
   #iops is multipled by 100 by the number specified
   iopsPerGB: "3"
   fsType: ext4
+allowedTopologies:
+- matchLabelExpressions:
+  - key: failure-domain.beta.kubernetes.io/zone
+    values:
+    - us-east-1b
