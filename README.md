@@ -1,2 +1,4 @@
 # vivo-docker
+![Build Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoidVlLQVU3dHhtWW9wcnFvMnZqRGlNTGhQMGJWdG9OWkJocWZ3c2l1RjRURkd0OUdCY05wU2JpSFVXL2JTUDhwdkZraXUyMnRFQ1lXV2pZSmdGd0pkU3FrPSIsIml2UGFyYW1ldGVyU3BlYyI6IlA0cEdlSU5lWmNRaWhWMXciLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
 This is the dockerized version of VIVO
