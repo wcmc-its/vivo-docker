@@ -33,4 +33,8 @@ phases:
           kubectl scale deployment/vivosolr --replicas=0 -n vivo
           kubectl set image deployment/vivo vivo=$REPOSITORY_URI:$TAG -n vivo
           kubectl set image deployment/vivosolr solr=$SOLR_REPOSITORY_URI:$TAG -n vivo
+          sleep 1m
+          kubectl scale deployment/vivosolr --replicas=1 -n vivo
+          sleep 40s
+          kubectl scale deployment/vivo --replicas=1 -n vivo
         fi
