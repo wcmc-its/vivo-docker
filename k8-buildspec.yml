@@ -19,7 +19,7 @@ phases:
       - |
         if expr "${BRANCH}" : ".*master" >/dev/null || expr "${BRANCH}" : ".*dev" >/dev/null; then
           docker build --tag $REPOSITORY_URI:$TAG ./vivo
-          docker build --tag $SOLR_REPOSITORY_URI:$TAG ./vivosolr
+          docker build --tag $SOLR_REPOSITORY_URI:$TAG ./solr
 
         fi
   post_build:
@@ -28,4 +28,9 @@ phases:
         if expr "${BRANCH}" : ".*master" >/dev/null || expr "${BRANCH}" : ".*dev" >/dev/null; then
           docker push $REPOSITORY_URI:$TAG
           docker push $SOLR_REPOSITORY_URI:$TAG
+          aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region us-east-1 --role-arn $EKS_KUBECTL_ROLE_ARN
+          kubectl scale deployment/vivo --replicas=0 -n vivo
+          kubectl scale deployment/vivosolr --replicas=0 -n vivo
+          kubectl set image deployment/vivo vivo=$REPOSITORY_URI:$TAG -n vivo
+          kubectl set image deployment/vivosolr solr=$SOLR_REPOSITORY_URI:$TAG -n vivo
         fi
