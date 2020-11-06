@@ -19,7 +19,7 @@ phases:
       - |
         if expr "${BRANCH}" : ".*master" >/dev/null || expr "${BRANCH}" : ".*dev" >/dev/null; then
           docker build --tag $REPOSITORY_URI:$TAG ./vivo
-          if expr "${SKIP_SOLR}" : ".*no" >/dev/null
+          if expr "${SKIP_SOLR}" : ".*no" >/dev/null; then
             docker build --tag $SOLR_REPOSITORY_URI:$TAG ./solr
           fi
         fi
@@ -28,20 +28,20 @@ phases:
       - |
         if expr "${BRANCH}" : ".*master" >/dev/null || expr "${BRANCH}" : ".*dev" >/dev/null; then
           docker push $REPOSITORY_URI:$TAG
-          if expr "${SKIP_SOLR}" : ".*no" >/dev/null
+          if expr "${SKIP_SOLR}" : ".*no" >/dev/null; then
             docker push $SOLR_REPOSITORY_URI:$TAG
           fi
           aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region us-east-1 --role-arn $EKS_KUBECTL_ROLE_ARN
           kubectl scale deployment/vivo --replicas=0 -n vivo
-          if expr "${SKIP_SOLR}" : ".*no" >/dev/null
+          if expr "${SKIP_SOLR}" : ".*no" >/dev/null; then
             kubectl scale deployment/vivosolr --replicas=0 -n vivo
           fi
           kubectl set image deployment/vivo vivo=$REPOSITORY_URI:$TAG -n vivo
-          if expr "${SKIP_SOLR}" : ".*no" >/dev/null
+          if expr "${SKIP_SOLR}" : ".*no" >/dev/null; then
             kubectl set image deployment/vivosolr solr=$SOLR_REPOSITORY_URI:$TAG -n vivo
           fi
           sleep 1m
-          if expr "${SKIP_SOLR}" : ".*no" >/dev/null
+          if expr "${SKIP_SOLR}" : ".*no" >/dev/null; then
             kubectl scale deployment/vivosolr --replicas=1 -n vivo
           fi
           sleep 40s
