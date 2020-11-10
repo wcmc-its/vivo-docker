@@ -12,8 +12,6 @@ services:
   vivo:
     build:
       context: ./vivo
-    volumes:
-      - ./example-config:/usr/local/vivo/home/config
     ports:
       - 8080:8080
     depends_on:
