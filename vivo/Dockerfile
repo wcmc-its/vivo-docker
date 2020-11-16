@@ -35,8 +35,6 @@ COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO/applicationSetup.n3
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
 
-RUN export CATALINA_OPTS="-Xms8192m -Xmx8192m -XX:MaxPermSize=2048m"
-
 RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log
 
 ADD start.sh /
