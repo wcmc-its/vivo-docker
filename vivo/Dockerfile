@@ -18,11 +18,7 @@ RUN rm VIVO.zip
 WORKDIR /usr/local/VIVO/
 COPY ./example-settings.xml example-settings.xml
 RUN mv VIVO-master VIVO
-WORKDIR /usr/local/VIVO
-RUN mv /usr/local/Vitro/Vitro-master /usr/local/VIVO
-RUN mv Vitro-master Vitro
 WORKDIR /usr/local/VIVO/VIVO
-RUN mvn clean install -Dmaven.test.skip=true -s ../example-settings.xml
 
 # clean up
 RUN rm -r /usr/local/tomcat/webapps/docs
@@ -33,13 +29,17 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT
 # Adjust logging, you can mount over this in docker-compose to further adjust
 #COPY ./log4j.properties /usr/local/tomcat/webapps/vivo/WEB-INF/classes
 
-COPY ./example.runtime.properties /usr/local/VIVO/home/config/runtime.properties
-COPY ./example.applicationSetup.n3 /usr/local/VIVO/home/config/applicationSetup.n3
+COPY ./example.runtime.properties /usr/local/VIVO/VIVO/runtime.properties
+COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO/applicationSetup.n3
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
-WORKDIR /usr/local/tomcat/webapps
 
-RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log && ln -s /usr/local/VIVO/webapps/vivo ROOT
+RUN export CATALINA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=128m"
 
-RUN export CATALINA_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=256m"
+RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log
+
+ADD start.sh /
+RUN chmod +x /start.sh
+
+CMD ["/start.sh"]

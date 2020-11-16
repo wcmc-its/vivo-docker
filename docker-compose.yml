@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   solr:
     build:
@@ -8,14 +8,30 @@ services:
     volumes:
       - solr-data:/opt/solr/server/solr/ckan/data
     command: solr-create -c vivocore -d /opt/vivocore
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 500M
+        reservations:
+          memory: 500M
 
   vivo:
     build:
       context: ./vivo
     ports:
       - 8080:8080
+    volumes:
+      - ~/home:/usr/local/VIVO/home
     depends_on:
       - solr
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 3G
+        reservations:
+          memory: 3G
 
   nginx:
     build:
@@ -24,7 +40,20 @@ services:
       - 80:80
     depends_on:
       - vivo
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 300M
+        reservations:
+          memory: 200M
 
 
 volumes:
   solr-data:
+  # vivo-home:
+  #   driver: local
+  #   driver_opts:
+  #     o: bind
+  #     type: none
+  #     device: /usr/local/VIVO/home
