@@ -14,6 +14,7 @@ phases:
         - export KUBECONFIG=$HOME/.kube/config
         - SOLR_REPOSITORY_URI="${REPOSITORY_URI}solr"
         - sed -i.bak -e 's@VIVO_USERNAME@'"${VIVO_USERNAME}"'@' -e 's@VIVO_PASSWORD@'"${VIVO_PASSWORD}"'@' -e 's@VIVO_HOST@'"${VIVO_HOST}"'@' vivo/example.runtime.properties;
+        - sed -i.bak -e 's@NR_LICENSE_KEY@'"${NR_LICENSE_KEY}"'@' vivo/newrelic/newrelic.yml;
   build:
     commands:
       - |
