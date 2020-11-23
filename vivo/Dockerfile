@@ -32,6 +32,14 @@ RUN rm -rf /usr/local/tomcat/webapps/ROOT
 COPY ./example.runtime.properties /usr/local/VIVO/VIVO/runtime.properties
 COPY ./example.applicationSetup.n3 /usr/local/VIVO/VIVO/applicationSetup.n3
 
+# Newrelic section
+ENV NEW_RELIC_APP_NAME="VIVO Dev"
+ENV NEW_RELIC_LICENSE_KEY="NR_LICENSE_KEY"
+RUN mkdir -p /usr/local/tomcat/newrelic
+ADD ./newrelic/newrelic.jar /usr/local/tomcat/newrelic/newrelic.jar
+ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
+ADD ./newrelic/newrelic.yml /usr/local/tomcat/newrelic/newrelic.yml
+
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
 
