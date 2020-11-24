@@ -5,6 +5,12 @@ services:
       context: ./solr
     ports:
       - 8983:8983
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /logs/vivosolr
+        awslogs-create-group: 'true'
     volumes:
       - solr-data:/opt/solr/server/solr/ckan/data
     command: solr-create -c vivocore -d /opt/vivocore
@@ -12,15 +18,21 @@ services:
       resources:
         limits:
           cpus: '1'
-          memory: 500M
+          memory: 3G
         reservations:
-          memory: 500M
+          memory: 3G
 
   vivo:
     build:
       context: ./vivo
     ports:
       - 8080:8080
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /logs/vivo
+        awslogs-create-group: 'true'
     volumes:
       - ~/home:/usr/local/VIVO/home
     depends_on:
@@ -28,16 +40,22 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '2'
-          memory: 3G
+          cpus: '2.2'
+          memory: 10G
         reservations:
-          memory: 3G
+          memory: 10G
 
   nginx:
     build:
       context: ./nginx
     ports:
       - 80:80
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /logs/vivonginx
+        awslogs-create-group: 'true'
     depends_on:
       - vivo
     deploy:
