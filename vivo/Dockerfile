@@ -43,8 +43,6 @@ ADD ./newrelic/newrelic.yml /usr/local/tomcat/newrelic/newrelic.yml
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
 
-RUN export CATALINA_OPTS="-Xms1024m -Xmx1024m -XX:MaxPermSize=128m"
-
 RUN ln -sf /dev/stdout /usr/local/tomcat/logs/vivo.all.log
 
 ADD start.sh /
