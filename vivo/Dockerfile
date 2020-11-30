@@ -11,7 +11,7 @@ RUN unzip Vitro.zip -d Vitro
 RUN rm Vitro.zip
 
 ENV VIVO_VERSION 1.11.1
-RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/archive/master.zip
+RUN wget -O VIVO.zip https://github.com/wcmc-its/VIVO/archive/prod.zip
 RUN unzip VIVO.zip -d VIVO
 RUN rm VIVO.zip
 
@@ -24,6 +24,8 @@ WORKDIR /usr/local/VIVO/VIVO
 RUN rm -r /usr/local/tomcat/webapps/docs
 RUN rm -r /usr/local/tomcat/webapps/examples
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
+RUN rm -rf /usr/local/tomcat/webapps/manager
+RUN rm -rf /usr/local/tomcat/webapps/host-manager
 
 # Set properties
 # Adjust logging, you can mount over this in docker-compose to further adjust
