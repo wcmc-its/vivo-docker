@@ -14,6 +14,7 @@ services:
     volumes:
       - solr-data:/opt/solr/server/solr/ckan/data
     command: solr-create -c vivocore -d /opt/vivocore
+    restart: always 
     deploy:
       resources:
         limits:
@@ -35,6 +36,13 @@ services:
         awslogs-create-group: 'true'
     volumes:
       - ~/home:/usr/local/VIVO/home
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 5m
+      timeout: 20s
+      retries: 3
+      start_period: 5m
     depends_on:
       - solr
     deploy:
@@ -56,6 +64,13 @@ services:
         awslogs-region: us-east-1
         awslogs-group: /logs/vivonginx
         awslogs-create-group: 'true'
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/nginx-health"]
+      interval: 5m
+      timeout: 20s
+      retries: 3
+      start_period: 40s
     depends_on:
       - vivo
     deploy:
