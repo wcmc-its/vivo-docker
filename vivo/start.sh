@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/local/VIVO
-mv /usr/local/Vitro/Vitro-master /usr/local/VIVO
+mv /usr/local/Vitro/Vitro-master /usr/local/VIVO/Vitro-master
 mv Vitro-master Vitro
 cd /usr/local/VIVO/VIVO
 mvn clean install -Dmaven.test.skip=true -s ../example-settings.xml
