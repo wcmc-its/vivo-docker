@@ -41,6 +41,7 @@ RUN mkdir -p /usr/local/tomcat/newrelic
 ADD ./newrelic/newrelic.jar /usr/local/tomcat/newrelic/newrelic.jar
 ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/usr/local/tomcat/newrelic/newrelic.jar"
 ADD ./newrelic/newrelic.yml /usr/local/tomcat/newrelic/newrelic.yml
+ADD ./server.xml /usr/local/tomcat/conf/server.xml
 
 RUN chmod ugo+w -R /usr/local/tomcat/temp
 #RUN chmod ugo+w -R /usr/local/VIVO/home
