@@ -1,5 +1,6 @@
 FROM tomcat:9.0.21-jdk11-openjdk
 
+RUN echo "deb http://archive.debian.org/debian stretch main" > /etc/apt/sources.list
 RUN apt-get update
 RUN apt-get install -y maven git
 
